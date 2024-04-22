@@ -9,6 +9,7 @@ SDL_Renderer* renderR = NULL;
 SDL_Texture* color_buffer_texture = NULL;
 uint32_t* color_buffer = NULL;
 
+int backGcolor[3] = {0,0,0};
 int winResX = 800;
 int winResY = 600;
 
@@ -91,7 +92,7 @@ void render_color_buffer(){
 }
 
 void render(void){
-    SDL_SetRenderDrawColor(renderR,128,5,128,255 ); //paint renderer,r,g,b,a
+    SDL_SetRenderDrawColor(renderR,backGcolor[0],backGcolor[1],backGcolor[2],0 ); //paint renderer,r,g,b,a
     SDL_RenderClear(renderR); // clear render
 
     clear_color_buffer((uint32_t) rand());
