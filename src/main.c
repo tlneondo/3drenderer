@@ -37,10 +37,36 @@ bool initialize_window(int resX, int resY){
     return true;
 }
 
+void setup(void){
+
+}
+
+void process_input(void){
+
+}
+
+void update(void){
+
+}
+
+void render(void){
+
+}
+
 int main(void){
 
     //sdl window
     is_running = initialize_window(800,600);
     
+    setup();
+
+    while(true){
+        process_input();
+        update();
+        render();
+
+    }
+
+
     return 0;
 }
