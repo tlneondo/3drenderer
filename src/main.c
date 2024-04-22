@@ -46,10 +46,16 @@ void process_input(void){
     SDL_PollEvent(&event); //create event and poll it
 
     switch(event.type){
-        case SDL_QUIT:
+        case SDL_QUIT: ///SDL QUIT calls X button of window
             is_running = false;
             break;
-
+        case SDL_KEYDOWN: //check for specific keys
+            switch(event.key.keysym.sym){
+                case SDLK_ESCAPE:
+                    is_running = false;
+                    break;
+            }
+            break;
 
     }
 }
