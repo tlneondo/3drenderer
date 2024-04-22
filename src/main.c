@@ -27,7 +27,7 @@ bool initialize_window(int resX, int resY){
         //second parameter is display code -> -1 first defaul
         //third is no flags
 
-    renderR == SDL_CreateRenderer(window,-1, 0);
+    renderR = SDL_CreateRenderer(window,-1, 0);
 
         if(!renderR){
             fprintf(stderr, "SDL renderer init error.\n");
