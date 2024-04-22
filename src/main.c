@@ -42,7 +42,16 @@ void setup(void){
 }
 
 void process_input(void){
+    SDL_Event event;
+    SDL_PollEvent(&event); //create event and poll it
 
+    switch(event.type){
+        case SDL_QUIT:
+            is_running = false;
+            break;
+
+
+    }
 }
 
 void update(void){
@@ -60,11 +69,10 @@ int main(void){
     
     setup();
 
-    while(true){
+    while(is_running){
         process_input();
         update();
         render();
-
     }
 
 
