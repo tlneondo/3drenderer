@@ -15,7 +15,7 @@ bool initialize_window(int resX, int resY){
     }
 
     //create SDL Window
-    window = SDL_CreateWindow(NULL,SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,resX,resY,SDL_WINDOW_BORDERLESS);
+    window = SDL_CreateWindow(NULL,SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,resX,resY,SDL_WINDOW_RESIZABLE);
 
         if(!window){
             fprintf(stderr, "SDL window init error.\n");
