@@ -1,10 +1,15 @@
 #include <stdio.h>
 #include <stdbool.h>
+#include <stdint.h>
 #include <SDL2/SDL.h>
 
 bool is_running = false;
 SDL_Window* window = NULL;
 SDL_Renderer* renderR = NULL;
+uint32_t* color_buffer = NULL;
+
+int winResX = 800;
+int winResY = 600;
 
 
 bool initialize_window(int resX, int resY){
@@ -15,7 +20,7 @@ bool initialize_window(int resX, int resY){
     }
 
     //create SDL Window
-    window = SDL_CreateWindow(NULL,SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,resX,resY,SDL_WINDOW_RESIZABLE);
+    window = SDL_CreateWindow(NULL,SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,winResX,winResX,SDL_WINDOW_RESIZABLE);
 
         if(!window){
             fprintf(stderr, "SDL window init error.\n");
@@ -38,6 +43,10 @@ bool initialize_window(int resX, int resY){
 }
 
 void setup(void){
+
+    color_buffer = malloc(sizeof(uint32_t) * winResX * winResY);
+
+    color_buffer[winResX * 10 + 20] = 0x00000000;
 
 }
 
@@ -62,6 +71,8 @@ void process_input(void){
 
 void update(void){
 
+    
+
 }
 
 void render(void){
@@ -72,10 +83,17 @@ void render(void){
 
 }
 
+void destroy_window(void){
+    free(color_buffer);
+    SDL_DestroyRenderer(renderR);
+    SDL_DestroyWindow(window);
+    SDL_Quit();
+}
+
 int main(void){
 
     //sdl window
-    is_running = initialize_window(800,600);
+    is_running = initialize_window(winResX,winResY);
     
     setup();
 
@@ -85,6 +103,8 @@ int main(void){
         render();
     }
 
+
+    destroy_window();
 
     return 0;
 }
