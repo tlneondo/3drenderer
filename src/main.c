@@ -65,6 +65,10 @@ void update(void){
 }
 
 void render(void){
+    SDL_SetRenderDrawColor(renderR,128,5,128,255 ); //paint renderer,r,g,b,a
+    SDL_RenderClear(renderR); // clear render
+
+    SDL_RenderPresent(renderR);
 
 }
 
