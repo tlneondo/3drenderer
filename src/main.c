@@ -10,21 +10,26 @@ SDL_Renderer* renderR = NULL;
 SDL_Texture* color_buffer_texture = NULL;
 uint32_t* color_buffer = NULL;
 
-typedef struct renderSettings{
-    int backGColor[4];
-    int winResX;
-    int winResY;
-    int borderLess;
-}renderSettings;
 
-renderSettings windowState;
 
-windowState.backGColor[4] = {0,0,0,0};
-windowState.winResX = 800;
-windowState.winResY = 600;
+renderSettings* windowState;
 
 
 bool initialize_window(int resX, int resY){
+
+    windowState = malloc(sizeof(renderSettings*));
+
+    windowState->backGColor = malloc(sizeof(int)* 4);
+    windowState->backGColor[0] = 0;
+    windowState->backGColor[1] = 0;
+    windowState->backGColor[2] = 0;
+    windowState->backGColor[3] = 0;
+    windowState->winResX = resX;
+    windowState->winResY = resY;
+
+
+
+
     //configure a window
     if(SDL_Init(SDL_INIT_EVERYTHING) != 0){
         fprintf(stderr, "SDL init error.\n");
@@ -32,7 +37,7 @@ bool initialize_window(int resX, int resY){
     }
 
     //create SDL Window
-    window = SDL_CreateWindow(NULL,SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,windowState.winResX,windowState.winResX,SDL_WINDOW_RESIZABLE);
+    window = SDL_CreateWindow(NULL,SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,windowState->winResX,windowState->winResX,SDL_WINDOW_RESIZABLE);
 
         if(!window){
             fprintf(stderr, "SDL window init error.\n");
@@ -50,20 +55,29 @@ bool initialize_window(int resX, int resY){
             fprintf(stderr, "SDL renderer init error.\n");
             return false;
         }
+
+
         
     return true;
 }
 
 void clear_color_buffer(uint32_t color){
-    for(int y = 0; y < windowState.winResY; y++){
-        for (int x = 0; x < windowState.winResX; x++){
-            color_buffer[x + (windowState.winResX * y)] = color;
+    for(int y = 0; y < windowState->winResY; y++){
+        for (int x = 0; x < windowState->winResX; x++){
+            color_buffer[x + (windowState->winResX * y)] = color;
         }
     }
 }
 
 void render_color_buffer(){
-    SDL_UpdateTexture(color_buffer_texture,NULL, color_buffer,(int)(renderSettings.winResX * sizeof(uint32_t)) );
+    SDL_UpdateTexture(
+                        color_buffer_texture,
+                        NULL, 
+                        color_buffer, 
+                        (int) ( (windowState->winResX) * (sizeof(uint32_t)))
+                        );
+
+}
 
 void destroy_window(void){
     free(color_buffer);
@@ -72,12 +86,11 @@ void destroy_window(void){
     SDL_Quit();
 }
 
-
 void setup(void){
 
-    color_buffer = malloc(sizeof(uint32_t) * windowState.winResX * windowState.winResY);
-    color_buffer_texture = SDL_CreateTexture(renderR,SDL_PIXELFORMAT_ARGB8888,SDL_TEXTUREACCESS_STREAMING,windowState.winResX,windowState.winResY);
-    color_buffer[windowState.winResX * 10 + 20] = 0x00000000;
+    color_buffer = malloc(sizeof(uint32_t) * windowState->winResX * windowState->winResY);
+    color_buffer_texture = SDL_CreateTexture(renderR,SDL_PIXELFORMAT_ARGB8888,SDL_TEXTUREACCESS_STREAMING,windowState->winResX,windowState->winResY);
+    color_buffer[windowState->winResX * 10 + 20] = 0x00000000;
 
 }
 
@@ -108,7 +121,7 @@ void update(void){
 }
 
 void render(void){
-    SDL_SetRenderDrawColor(renderR,windowState.backGColor[0],windowState.backGColor[1],windowState.backGColor[2],windowState.backGColor[3]); //paint renderer background r,g,b,a
+    SDL_SetRenderDrawColor(renderR,windowState->backGColor[0],windowState->backGColor[1],windowState->backGColor[2],windowState->backGColor[3]); //paint renderer background r,g,b,a
     SDL_RenderClear(renderR); // clear render
 
     //set up color buffer
@@ -126,7 +139,7 @@ void render(void){
 int main(void){
 
     //sdl window
-    is_running = initialize_window(windowState.winResX,windowState.winResY);
+    is_running = initialize_window(800,600);
     
     setup();
 
