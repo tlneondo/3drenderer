@@ -15,7 +15,7 @@ uint32_t* color_buffer = NULL;
 renderSettings* windowState;
 
 
-bool initialize_window(int resX, int resY){
+bool initialize_window(){
 
     windowState = malloc(sizeof(renderSettings*));
 
@@ -24,8 +24,8 @@ bool initialize_window(int resX, int resY){
     windowState->backGColor[1] = 0;
     windowState->backGColor[2] = 0;
     windowState->backGColor[3] = 0;
-    windowState->winResX = resX;
-    windowState->winResY = resY;
+    windowState->winResX = 800;
+    windowState->winResY = 600;
 
 
 
@@ -139,7 +139,7 @@ void render(void){
 int main(void){
 
     //sdl window
-    is_running = initialize_window(800,600);
+    is_running = initialize_window();
     
     setup();
 
