@@ -15,14 +15,18 @@ renderSettings* windowState;
 bool initialize_window(){
 
     windowState = malloc(sizeof(renderSettings*));
+    SDL_GetCurrentDisplayMode(0,&(windowState->display_mode));
+    
 
     windowState->backGColor = malloc(sizeof(int)* 4);
     windowState->backGColor[0] = 128;
     windowState->backGColor[1] = 0;
     windowState->backGColor[2] = 0;
     windowState->backGColor[3] = 0;
-    windowState->winResX = 800;
-    windowState->winResY = 600;
+    windowState->winResX = 1280;
+    windowState->winResY = 720;
+    windowState->MaxResX = windowState->display_mode.w;
+    windowState->MaxResY = windowState->display_mode.h;
 
 
 
@@ -34,7 +38,7 @@ bool initialize_window(){
     }
 
     //create SDL Window
-    window = SDL_CreateWindow(NULL,SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,windowState->winResX,windowState->winResX,SDL_WINDOW_RESIZABLE);
+    window = SDL_CreateWindow(NULL,SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,windowState->winResX,windowState->winResY,SDL_WINDOW_BORDERLESS);
 
         if(!window){
             fprintf(stderr, "SDL window init error.\n");
@@ -53,7 +57,8 @@ bool initialize_window(){
             return false;
         }
 
-
+    //set to fullscreen
+    SDL_SetWindowFullscreen(window,SDL_WINDOW_FULLSCREEN);
         
     return true;
 }
