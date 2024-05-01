@@ -2,6 +2,9 @@
     "files.associations": {
         "cstdlib": "c",
         "sdl.h": "c",
-        "stdio.h": "c"
+        "stdio.h": "c",
+        "chrono": "cpp",
+        "functional": "cpp",
+        "stdbool.h": "c"
     }
 }

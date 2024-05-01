@@ -3,6 +3,7 @@
 #include <stdint.h>
 #include <SDL2/SDL.h>
 #include "./icyHelper.h"
+#include "./geom.h"
 
 bool is_running = false; //starting and stopping renderloop
 bool is_TotalPaused = false; //pausing renderloop
@@ -113,6 +114,20 @@ void draw_Grid(SDL_Texture* texScreen, int32_t gridColor){
 
 }
 
+void draw_rect(int x, int y, int width, int height, uint32_t color){
+
+    //target x -> target x + width
+    //target y -> target y + height
+
+    for(int i = x; i < width; i++){
+        for(int j = y; j < height; j++){
+            color_buffer[(x + i) + (y * j)] = color;
+        }
+
+    }
+
+}
+
 void render(void){
     SDL_SetRenderDrawColor( //paint renderer background r,g,b,a
         renderR,windowState->backGColor[0],
@@ -124,9 +139,10 @@ void render(void){
     SDL_RenderClear(renderR); // clear render
     
     //set up color buffer
-    clear_color_buffer((uint32_t) 0x444444);
+    clear_color_buffer((uint32_t) 0x0);
 
-    draw_Grid(color_buffer_texture, 0x888888); //draw gray grid
+    //draw_Grid(color_buffer_texture, 0x888888); //draw gray grid
+    draw_rect(200,200,200,200,0xFFFFFF);
 
     render_color_buffer();
 
