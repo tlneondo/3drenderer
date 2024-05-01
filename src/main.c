@@ -5,15 +5,12 @@
 #include "./icyHelper.h"
 
 bool is_running = false;
+bool is_paused = false;
 SDL_Window* window = NULL;
 SDL_Renderer* renderR = NULL;
 SDL_Texture* color_buffer_texture = NULL;
 uint32_t* color_buffer = NULL;
-
-
-
 renderSettings* windowState;
-
 
 bool initialize_window(){
 
@@ -98,7 +95,6 @@ void setup(void){
 
 }
 
-
 void process_input(void){
     SDL_Event event;
     SDL_PollEvent(&event); //create event and poll it
@@ -107,6 +103,19 @@ void process_input(void){
         case SDL_QUIT: ///SDL QUIT calls X button of window
             is_running = false;
             break;
+
+        case SDL_WINDOWEVENT_CLOSE:
+            is_running = false;
+            break;
+        
+        case SDL_WINDOWEVENT_MINIMIZED:
+            is_paused = true;
+            break;
+
+        case SDL_WINDOWEVENT_RESTORED:
+            is_paused = false;
+            break;
+
         case SDL_KEYDOWN: //check for specific keys
             switch(event.key.keysym.sym){
                 case SDLK_ESCAPE:
@@ -136,10 +145,6 @@ void render(void){
     SDL_RenderPresent(renderR);
 }
 
-
-
-
-
 int main(void){
 
     //sdl window
@@ -149,8 +154,11 @@ int main(void){
 
     while(is_running){
         process_input();
-        update();
-        render();
+        if(!is_paused){
+            update();
+            render();
+        }
+
     }
 
     destroy_window();
