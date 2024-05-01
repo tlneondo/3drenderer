@@ -20,7 +20,7 @@ bool initialize_window(){
     windowState = malloc(sizeof(renderSettings*));
 
     windowState->backGColor = malloc(sizeof(int)* 4);
-    windowState->backGColor[0] = 0;
+    windowState->backGColor[0] = 128;
     windowState->backGColor[1] = 0;
     windowState->backGColor[2] = 0;
     windowState->backGColor[3] = 0;
@@ -88,9 +88,13 @@ void destroy_window(void){
 
 void setup(void){
 
-    color_buffer = malloc(sizeof(uint32_t) * windowState->winResX * windowState->winResY);
+    color_buffer = (uint32_t*) malloc(sizeof(uint32_t) * windowState->winResX * windowState->winResY);
+
+
     color_buffer_texture = SDL_CreateTexture(renderR,SDL_PIXELFORMAT_ARGB8888,SDL_TEXTUREACCESS_STREAMING,windowState->winResX,windowState->winResY);
-    color_buffer[windowState->winResX * 10 + 20] = 0x00000000;
+
+    
+    color_buffer[windowState->winResX * 10 + 20] = 0xFFAFFF00;
 
 }
 
@@ -125,7 +129,7 @@ void render(void){
     SDL_RenderClear(renderR); // clear render
 
     //set up color buffer
-    clear_color_buffer((uint32_t) rand());
+    clear_color_buffer((uint32_t) 0x0);
     render_color_buffer();
 
     //present render
