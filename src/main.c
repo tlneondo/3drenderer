@@ -67,32 +67,51 @@ void clear_color_buffer(uint32_t color){
 }
 
 void render_color_buffer(){
-    SDL_UpdateTexture(
+    SDL_UpdateTexture( //update texture
                         color_buffer_texture,
                         NULL, 
                         color_buffer, 
-                        (int) ( (windowState->winResX) * (sizeof(uint32_t)))
-                        );
-
+                        (int) ( (windowState->winResX) * (sizeof(uint32_t))) //pitch / window row size
+                    );
+    SDL_RenderCopy(renderR,color_buffer_texture,NULL,NULL); //push texture to renderer
 }
 
-void destroy_window(void){
-    free(color_buffer);
-    SDL_DestroyRenderer(renderR);
-    SDL_DestroyWindow(window);
-    SDL_Quit();
-}
 
 void setup(void){
-
     color_buffer = (uint32_t*) malloc(sizeof(uint32_t) * windowState->winResX * windowState->winResY);
+    color_buffer_texture = SDL_CreateTexture(
+            renderR,
+            SDL_PIXELFORMAT_ARGB8888,
+            SDL_TEXTUREACCESS_STREAMING,
+            windowState->winResX,
+            windowState->winResY
+        );
+}
 
 
-    color_buffer_texture = SDL_CreateTexture(renderR,SDL_PIXELFORMAT_ARGB8888,SDL_TEXTUREACCESS_STREAMING,windowState->winResX,windowState->winResY);
+
+void update(void){
 
     
-    color_buffer[windowState->winResX * 10 + 20] = 0xFFAFFF00;
 
+}
+
+void render(void){
+    SDL_SetRenderDrawColor( //paint renderer background r,g,b,a
+        renderR,windowState->backGColor[0],
+        windowState->backGColor[1],
+        windowState->backGColor[2],
+        windowState->backGColor[3]
+    );
+
+    SDL_RenderClear(renderR); // clear render
+
+    //set up color buffer
+    clear_color_buffer((uint32_t) 0xFFFFFF00);
+    render_color_buffer();
+
+    //present render
+    SDL_RenderPresent(renderR);
 }
 
 void process_input(void){
@@ -109,11 +128,11 @@ void process_input(void){
             break;
         
         case SDL_WINDOWEVENT_MINIMIZED:
-            is_TotalPaused = true;
+            //is_TotalPaused = true;
             break;
 
         case SDL_WINDOWEVENT_RESTORED:
-            is_TotalPaused = false;
+            //is_TotalPaused = false;
             break;
 
         case SDL_KEYDOWN: //check for specific keys
@@ -121,28 +140,19 @@ void process_input(void){
                 case SDLK_ESCAPE:
                     is_running = false;
                     break;
+                case SDLK_LALT:
+                    break;
             }
             break;
 
     }
 }
 
-void update(void){
-
-    
-
-}
-
-void render(void){
-    SDL_SetRenderDrawColor(renderR,windowState->backGColor[0],windowState->backGColor[1],windowState->backGColor[2],windowState->backGColor[3]); //paint renderer background r,g,b,a
-    SDL_RenderClear(renderR); // clear render
-
-    //set up color buffer
-    clear_color_buffer((uint32_t) 0x0);
-    render_color_buffer();
-
-    //present render
-    SDL_RenderPresent(renderR);
+void destroy_window(void){
+    free(color_buffer);
+    SDL_DestroyRenderer(renderR);
+    SDL_DestroyWindow(window);
+    SDL_Quit();
 }
 
 int main(void){
