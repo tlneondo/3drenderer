@@ -13,10 +13,8 @@ uint32_t* color_buffer = NULL;
 renderSettings* windowState;
 
 bool initialize_window(){
-
     windowState = malloc(sizeof(renderSettings*));
     SDL_GetCurrentDisplayMode(0,&(windowState->display_mode));
-    
 
     windowState->backGColor = malloc(sizeof(int)* 4);
     windowState->backGColor[0] = 128;
@@ -28,9 +26,6 @@ bool initialize_window(){
     windowState->MaxResX = windowState->display_mode.w;
     windowState->MaxResY = windowState->display_mode.h;
 
-
-
-
     //configure a window
     if(SDL_Init(SDL_INIT_EVERYTHING) != 0){
         fprintf(stderr, "SDL init error.\n");
@@ -38,7 +33,14 @@ bool initialize_window(){
     }
 
     //create SDL Window
-    window = SDL_CreateWindow(NULL,SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,windowState->winResX,windowState->winResY,SDL_WINDOW_BORDERLESS);
+    window = SDL_CreateWindow(
+        NULL,
+        SDL_WINDOWPOS_CENTERED,
+        SDL_WINDOWPOS_CENTERED,
+        windowState->winResX,
+        windowState->winResY,
+        SDL_WINDOW_BORDERLESS
+    );
 
         if(!window){
             fprintf(stderr, "SDL window init error.\n");
@@ -57,8 +59,8 @@ bool initialize_window(){
             return false;
         }
 
-    //set to fullscreen
-    SDL_SetWindowFullscreen(window,SDL_WINDOW_FULLSCREEN);
+    //set to fullscreen borderless
+    //SDL_SetWindowFullscreen(window,SDL_WINDOW_FULLSCREEN_DESKTOP);
         
     return true;
 }
@@ -98,6 +100,19 @@ void update(void){
 
 }
 
+void draw_Grid(SDL_Texture* texScreen, int32_t gridColor){
+    for(int y = 0; y < windowState->winResY; y++){
+        for (int x = 0; x < windowState->winResX; x++){
+            if ( (x) % 10 == 0 || (y % 10 ) == 0 ) {
+                color_buffer[x + (windowState->winResX * y)] = gridColor;
+            }          
+            
+        }
+        
+    }
+
+}
+
 void render(void){
     SDL_SetRenderDrawColor( //paint renderer background r,g,b,a
         renderR,windowState->backGColor[0],
@@ -107,9 +122,12 @@ void render(void){
     );
 
     SDL_RenderClear(renderR); // clear render
-
+    
     //set up color buffer
-    clear_color_buffer((uint32_t) 0xFFFFFF00);
+    clear_color_buffer((uint32_t) 0x444444);
+
+    draw_Grid(color_buffer_texture, 0x888888); //draw gray grid
+
     render_color_buffer();
 
     //present render
