@@ -76,7 +76,6 @@ void render_color_buffer(){
     SDL_RenderCopy(renderR,color_buffer_texture,NULL,NULL); //push texture to renderer
 }
 
-
 void setup(void){
     color_buffer = (uint32_t*) malloc(sizeof(uint32_t) * windowState->winResX * windowState->winResY);
     color_buffer_texture = SDL_CreateTexture(
@@ -87,8 +86,6 @@ void setup(void){
             windowState->winResY
         );
 }
-
-
 
 void update(void){
 
