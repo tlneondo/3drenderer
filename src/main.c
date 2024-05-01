@@ -4,8 +4,8 @@
 #include <SDL2/SDL.h>
 #include "./icyHelper.h"
 
-bool is_running = false;
-bool is_paused = false;
+bool is_running = false; //starting and stopping renderloop
+bool is_TotalPaused = false; //pausing renderloop
 SDL_Window* window = NULL;
 SDL_Renderer* renderR = NULL;
 SDL_Texture* color_buffer_texture = NULL;
@@ -109,11 +109,11 @@ void process_input(void){
             break;
         
         case SDL_WINDOWEVENT_MINIMIZED:
-            is_paused = true;
+            is_TotalPaused = true;
             break;
 
         case SDL_WINDOWEVENT_RESTORED:
-            is_paused = false;
+            is_TotalPaused = false;
             break;
 
         case SDL_KEYDOWN: //check for specific keys
@@ -154,7 +154,7 @@ int main(void){
 
     while(is_running){
         process_input();
-        if(!is_paused){
+        if(!is_TotalPaused){
             update();
             render();
         }
