@@ -9,7 +9,7 @@ bool is_running = false; //starting and stopping renderloop
 bool is_TotalPaused = false; //pausing renderloop
 SDL_Window* window = NULL;
 SDL_Renderer* renderR = NULL;
-SDL_Texture* color_buffer_texture = NULL;
+SDL_Texture* framebuffer_texture = NULL;
 uint32_t* color_buffer = NULL;
 renderSettings* windowState;
 
@@ -76,17 +76,17 @@ void clear_color_buffer(uint32_t color){
 
 void render_color_buffer(){
     SDL_UpdateTexture( //update texture
-                        color_buffer_texture,
+                        framebuffer_texture,
                         NULL, 
                         color_buffer, 
                         (int) ( (windowState->winResX) * (sizeof(uint32_t))) //pitch / window row size
                     );
-    SDL_RenderCopy(renderR,color_buffer_texture,NULL,NULL); //push texture to renderer
+    SDL_RenderCopy(renderR,framebuffer_texture,NULL,NULL); //push texture to renderer
 }
 
 void setup(void){
     color_buffer = (uint32_t*) malloc(sizeof(uint32_t) * windowState->winResX * windowState->winResY);
-    color_buffer_texture = SDL_CreateTexture(
+    framebuffer_texture = SDL_CreateTexture(
             renderR,
             SDL_PIXELFORMAT_ARGB8888,
             SDL_TEXTUREACCESS_STREAMING,
@@ -128,6 +128,12 @@ void draw_rect(int x, int y, int width, int height, uint32_t color){
 
 }
 
+void draw_imagefromFile(){
+    //SDL_Surface * bmp = SDL_LoadBMP();
+
+
+}
+
 void render(void){
     SDL_SetRenderDrawColor( //paint renderer background r,g,b,a
         renderR,windowState->backGColor[0],
@@ -141,8 +147,8 @@ void render(void){
     //set up color buffer
     clear_color_buffer((uint32_t) 0x0);
 
-    //draw_Grid(color_buffer_texture, 0x888888); //draw gray grid
-    draw_Grid(color_buffer_texture,0x888888);
+    //draw_Grid(framebuffer_texture, 0x888888); //draw gray grid
+    draw_Grid(framebuffer_texture,0x888888);
     
     
     draw_rect(200,200,200,200,0xFFFFFF);
