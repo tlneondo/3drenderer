@@ -142,6 +142,9 @@ void render(void){
     clear_color_buffer((uint32_t) 0x0);
 
     //draw_Grid(color_buffer_texture, 0x888888); //draw gray grid
+    draw_Grid(color_buffer_texture,0x888888);
+    
+    
     draw_rect(200,200,200,200,0xFFFFFF);
 
     render_color_buffer();
