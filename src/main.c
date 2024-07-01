@@ -119,11 +119,21 @@ void draw_rect(int x, int y, int width, int height, uint32_t color){
     //target x -> target x + width
     //target y -> target y + height
 
-    for(int i = x; i < width; i++){
-        for(int j = y; j < height; j++){
-            color_buffer[(x + i) + (y * j)] = color;
-        }
+    //for(int i = x; i < width; i++){
+    //    for(int j = y; j < height; j++){
+   //         color_buffer[(x + i) + (y * j)] = color;
+    //    }
+//
+    //}
+    //following compied from pikuma course to get back in swing
 
+    //x,y act as offsets to compute current x,y values which put pixel where it needs to be
+     for (int i = 0; i < width; i++) {
+        for (int j = 0; j < height; j++) {
+            int current_x = x + i;
+            int current_y = y + j;
+            color_buffer[(windowState->winResX * current_y) + current_x] = color;
+        }
     }
 
 }
