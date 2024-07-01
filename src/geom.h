@@ -1,3 +1,5 @@
+#pragma once
+
 typedef struct rect{
     int w;
     int h;

@@ -1,3 +1,5 @@
+#pragma once
+
 typedef struct renderSettings{
     int* backGColor;
     int winResX;
