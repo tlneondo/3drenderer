@@ -8,4 +8,4 @@ typedef struct renderSettings{
     int MaxResY;
     int borderLess;
     SDL_DisplayMode display_mode;
-}renderSettings;
+}renderSettings;                
