@@ -118,6 +118,14 @@ void draw_rect(int x, int y, int width, int height, uint32_t color){
 
 }
 
+void draw_pixel(int x, int y, uint32_t color){
+    //set pixel at point if within bounds
+    if(x < windowState->winResX && y < windowState->winResY){
+        color_buffer[(windowState->winResX * y) + x] = color;
+    }
+
+}
+
 void draw_imagefromFile(){
     //SDL_Surface * bmp = SDL_LoadBMP();
 
