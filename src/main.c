@@ -6,9 +6,12 @@
 #include "./geom.h"
 #include "./display.h"
 #include "./vec_math.h"
+#include "worldObject.h"
 
 bool is_running = false; //starting and stopping renderloop
 bool is_TotalPaused = false; //pausing renderloop
+
+
 
 void setup(void){
     color_buffer = (uint32_t*) malloc(sizeof(uint32_t) * windowState->winResX * windowState->winResY);
@@ -44,15 +47,12 @@ void render(void){
     draw_Grid(framebuffer_texture,0x888888);
     
     
-    draw_rect(200,200,200,200,0xFFFFFF);
+    //draw_rect(200,200,200,200,0xFFFFFF);
 
-    draw_pixel(250,250,0xFF0000);
+    //draw_pixel(250,250,0xFF0000);
     //////////////////////////////////////
 
-    vec2_t p0 = {0.0,2.0};
-    vec2_t p1 = {3.0,2.0};
-    vec2_t p2 = {4.5,-2.2};
-
+    camera_t mycam = {{0,0,0}, {0.3,-2.0,0.0}, 0.78};
 
 
     render_color_buffer();
