@@ -5,6 +5,7 @@
 #include "./icyHelper.h"
 #include "./geom.h"
 #include "./display.h"
+#include "./vec_math.h"
 
 bool is_running = false; //starting and stopping renderloop
 bool is_TotalPaused = false; //pausing renderloop
@@ -46,6 +47,13 @@ void render(void){
     draw_rect(200,200,200,200,0xFFFFFF);
 
     draw_pixel(250,250,0xFF0000);
+    //////////////////////////////////////
+
+    vec2_t p0 = {0.0,2.0};
+    vec2_t p1 = {3.0,2.0};
+    vec2_t p2 = {4.5,-2.2};
+
+
 
     render_color_buffer();
 
