@@ -10,3 +10,5 @@ typedef struct {
     float y;
     float z;
 } vec3_t;
+
+//Model vertices are described as +1/-1 offsets from origin in object space

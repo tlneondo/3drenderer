@@ -11,8 +11,6 @@
 bool is_running = false; //starting and stopping renderloop
 bool is_TotalPaused = false; //pausing renderloop
 
-
-
 void setup(void){
     color_buffer = (uint32_t*) malloc(sizeof(uint32_t) * windowState->winResX * windowState->winResY);
     framebuffer_texture = SDL_CreateTexture(
@@ -30,6 +28,24 @@ void update(void){
 
 }
 
+void testing(void){
+
+    //testing function to run learningjobs and keep render function clean
+
+    //draw_Grid(framebuffer_texture, 0x888888); //draw gray grid
+    draw_Grid(framebuffer_texture,0x888888);
+    
+    
+    //draw_rect(200,200,200,200,0xFFFFFF);
+
+    //draw_pixel(250,250,0xFF0000);
+    //////////////////////////////////////
+
+    camera_t mycam = {{0,0,0}, {0.3,-2.0,0.0}, 0.78};
+
+}
+
+
 void render(void){
     SDL_SetRenderDrawColor( //paint renderer background r,g,b,a
         renderR,windowState->backGColor[0],
@@ -43,17 +59,7 @@ void render(void){
     //set up color buffer
     clear_color_buffer((uint32_t) 0x0);
 
-    //draw_Grid(framebuffer_texture, 0x888888); //draw gray grid
-    draw_Grid(framebuffer_texture,0x888888);
-    
-    
-    //draw_rect(200,200,200,200,0xFFFFFF);
-
-    //draw_pixel(250,250,0xFF0000);
-    //////////////////////////////////////
-
-    camera_t mycam = {{0,0,0}, {0.3,-2.0,0.0}, 0.78};
-
+    testing();
 
     render_color_buffer();
 
@@ -102,6 +108,7 @@ int main(void){
     is_running = initialize_window();
     
     setup();
+
 
     while(is_running){
         process_input();
